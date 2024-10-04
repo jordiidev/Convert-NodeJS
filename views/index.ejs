@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>Convert</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+</head>
+<body class="text-black">
+    <main class="flex h-screen justify-center items-center">
+        <!-- <div class="wrapper flex flex-col gap-6">
+            <h1 class="text-2 xl">Image to Base64 Convert</h1>
+            <div class="flex gap-4">
+                <a href="/encode" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Encode</a>
+                <a href="/decode" class="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded">Decode</a>
+            </div>
+        </div> -->
+
+        <div>
+            <form class="bg-gray-100 p-10 rounded-lg shadow-md flex flex-col gap-6" action="/convert" method="POST" enctype="multipart/form-data">
+                <div>
+                    <label for="conversionType">Select Conversion Type</label>
+                    <select name="conversionType" id="conversionType" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" required>
+                        <option value="1">Convert Image to Base64</option>
+                        <option value="2">Convert Base64 to Image</option>
+                    </select>
+                </div>
+                <div id="fileInput" class="flex flex-col gap-6">
+                   <div>
+                    <label for="imageType">Select Image Type:</label>
+                    <select name="imageType" id="imageType" class="bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5" required>
+                        <option value="jpg">JPG</option>
+                        <option value="png">PNG</option>
+                        <option value="svg+xml">SVG</option>
+                        <option value="gif">GIF</option>
+                        <option value="ico">ICO</option>
+                    </select>
+                   </div>
+                    <div>
+                        <label for="imageFile">Upload Image File:</label>
+                        <input type="file" name="imageFile" id="imageFile" accept="image/*">
+                    </div>
+                </div>
+                <div id="base64Input" style="display:none;" class="flex flex-col">
+                    <label for="base64Image">Input Base64 Image</label>
+                    <textarea name="base64Image" id="base64Image" rows="5" cols="50"></textarea>
+                </div>
+
+                <button class="bg-teal-400 hover:bg-white hover:text-black text-white font-bold py-2 px-4 rounded" type="submit">Convert</button>
+            
+                <% if (result && result !== '') { %>
+                    <div>
+                        <h3>Result:</h3>
+                        <% if (conversionType === '1') { %>
+                            <div class="flex flex-col gap-3">
+                                <textarea name="base64Image" id="base64Image" rows="5" cols="50"><%= result %></textarea>
+                                <a class="text-center w-[25%] bg-black hover:bg-white hover:text-black text-white font-bold py-2 px-4 rounded" href="/">Reset</a>
+                            </div>
+                        <% } else if (conversionType === '2' && downloadLink) { %>
+                            <div class="flex gap-4">
+                                <a class="bg-teal-400 hover:bg-white hover:text-black text-white font-bold py-2 px-4 rounded" href="<%= downloadLink %>" download>Download Converted Image</a>
+                                <a class="bg-black hover:bg-white hover:text-black text-white font-bold py-2 px-4 rounded" href="/">Reset</a>
+                            </div>
+                        <% } %>
+                    </div>
+                <% } %>
+            </form>
+        </div>
+    </main>
+    <script>
+        const conversionTypeSelect = document.getElementById('conversionType');
+        const fileInput = document.getElementById('fileInput');
+        const base64Input = document.getElementById('base64Input');
+
+        conversionTypeSelect.addEventListener('change', function() {
+            if (this.value === '1') {
+                fileInput.style.display = 'block';
+                base64Input.style.display = 'none';
+            } else if (this.value === '2') {
+                fileInput.style.display = 'none';
+                base64Input.style.display = 'block';
+            }
+        });
+    </script>
+</body>
+</html>
